@@ -79,7 +79,8 @@ public class CheckinTest extends BaseTest {
 		inpMobile.clear();
 		inpMobile.sendKeys("1234567890");
 		btnCopy.click();
-		btnContinue3.click();
+		WebElement btnContinue4 = driver.findElement(By.xpath("//span[text()='Continue']"));
+		btnContinue4.click();
 
 	}
 }
