@@ -12,12 +12,17 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CheckinTest extends BaseTest {
 	public static void main(String[] args) throws Exception {
+		final String APP_URL = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Url");
+		final String USERNAME = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Username");
+		final String PASSWORD = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Password");
+		final String PNR = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Pnr");
+
 		System.setProperty("webdriver.chrome.driver", Constant.CHROME_DRIVER);
 		WebDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driver.get(Constant.APP_URL);
-		RobotPopup(Constant.USERNAME, Constant.PASSWORD);
+		driver.get(APP_URL);
+		RobotPopup(USERNAME, PASSWORD);
 		WebElement btnLanguageEnglish = (new WebDriverWait(driver, 60))
 				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id=\"enUSEdition\"]")));
 		btnLanguageEnglish.click();
@@ -34,7 +39,7 @@ public class CheckinTest extends BaseTest {
 		inpLastname.sendKeys("AMERICAN");
 		inpDeparture.sendKeys("YYZ");
 		RobotEnter();
-		inpPnr.sendKeys("OT9MKP");
+		inpPnr.sendKeys(PNR);
 		btnCheckIn.click();
 		ShortWait();
 		driver.switchTo().frame("ssci-iframe");
@@ -77,7 +82,7 @@ public class CheckinTest extends BaseTest {
 		inpCountryCode.clear();
 		inpCountryCode.sendKeys("India (+91)");
 		inpMobile.clear();
-		inpMobile.sendKeys("1234567890");
+		inpMobile.sendKeys("1234567790");
 		btnCopy.click();
 		WebElement btnContinue4 = driver.findElement(By.xpath("//span[text()='Continue']"));
 		btnContinue4.click();

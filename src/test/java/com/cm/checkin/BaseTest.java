@@ -1,20 +1,13 @@
 package com.cm.checkin;
 
-import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+public class BaseTest extends Constant {
 
-public class BaseTest {
 
-	
 	
 public static void RobotPopup(String uname,String pass) throws Exception
 {
@@ -41,7 +34,7 @@ public static void RobotPopup(String uname,String pass) throws Exception
 }
 public static void RobotEnter() throws Exception
 {
-	  Thread.sleep(1000);
+	
 	 Robot rb = new Robot();
      rb.keyPress(KeyEvent.VK_ENTER);
      rb.keyRelease(KeyEvent.VK_ENTER);
