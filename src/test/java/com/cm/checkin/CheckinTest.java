@@ -2,90 +2,65 @@ package com.cm.checkin;
 
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class CheckinTest extends BaseTest {
 	public static void main(String[] args) throws Exception {
-		final String APP_URL = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Url");
-		final String USERNAME = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Username");
-		final String PASSWORD = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Password");
-		final String PNR = ReadExcelDataUtility.ReadExcelData("Sheet1", "abc", "Pnr");
 
-		System.setProperty("webdriver.chrome.driver", Constant.CHROME_DRIVER);
+		// test data
+		final String TESTCASENAME = "abc";
+		final String APP_URL = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Url");
+		final String USERNAME = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Username");
+		final String PASSWORD = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Password");
+		final String PNR = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Pnr");
+		final String FIRSTNAME = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Firstname");
+		final String LASTNAME = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Lastname");
+		final String DEPARTURE = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Departure");
+		final String EMAIL = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Email");
+		//sfinal String COUNTRYCODE = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Countrycode");
+		//sfinal String MOBILE = ReadExcelDataUtility.ReadExcelData("Sheet1", TESTCASENAME, "Mobile");
+
+		// check in
+		System.setProperty("webdriver.chrome.driver", CHROME_DRIVER);
 		WebDriver driver = new ChromeDriver();
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		driver.get(APP_URL);
 		RobotPopup(USERNAME, PASSWORD);
-		WebElement btnLanguageEnglish = (new WebDriverWait(driver, 60))
-				.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@id=\"enUSEdition\"]")));
-		btnLanguageEnglish.click();
+		Click(btnLanguageEnglish(driver));
 		LongWait();
-		WebElement btnCheckInHome = (new WebDriverWait(driver, 30)).until(ExpectedConditions
-				.elementToBeClickable(By.xpath("//span[@class=\"magnet-icon ac-tab-checkin ac-1x\"]")));
-		btnCheckInHome.click();
-		WebElement inpFirstname = driver.findElement(By.id("checkin_first_name"));
-		WebElement inpLastname = driver.findElement(By.id("checkin_last_name"));
-		WebElement inpDeparture = driver.findElement(By.id("checkin_location"));
-		WebElement inpPnr = driver.findElement(By.id("checkin_aeroplan_or_pnr"));
-		WebElement btnCheckIn = driver.findElement(By.id("checin_submit_button"));
-		inpFirstname.sendKeys("AMY");
-		inpLastname.sendKeys("AMERICAN");
-		inpDeparture.sendKeys("YYZ");
+		Click(btnCheckInHome(driver));
+		Type(inpFirstname(driver),FIRSTNAME);
+		Type(inpLastname(driver),LASTNAME);
+		Type(inpDeparture(driver),DEPARTURE);
 		RobotEnter();
-		inpPnr.sendKeys(PNR);
-		btnCheckIn.click();
+		Type(inpPnr(driver), PNR);
+		Click(btnCheckIn(driver));
 		ShortWait();
 		driver.switchTo().frame("ssci-iframe");
-		WebElement btnContinueCheckin = (new WebDriverWait(driver, 60)).until(
-				ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[contains(text(),'Continue check-in')]")));
 		JavascriptExecutor js = (JavascriptExecutor) driver;
-		js.executeScript("arguments[0].scrollIntoView();", btnContinueCheckin);
-		btnContinueCheckin.click();
-		WebElement btnCheckinNow = driver.findElement(By.xpath("//span[text()='Check in now']"));
-		btnCheckinNow.click();
-		ShortWait();
-		WebElement btnNoToAll = driver.findElement(By.xpath("//button[text()='No to all']"));
-		btnNoToAll.click();
-		WebElement btnContinueCheckin2 = driver.findElement(By.xpath("//*[contains(text(),'Continue check-in')]"));
-		btnContinueCheckin2.click();
+		js.executeScript("arguments[0].scrollIntoView();", btnContinueCheckin(driver));
+		Click(btnContinueCheckin(driver));
+		Click(btnCheckinNow(driver));
 		VShortWait();
-		WebElement btnIAgree = driver.findElement(By.xpath("//span[text()='I agree']"));
-		btnIAgree.click();
-		WebElement btnRemainCurrentCabin = driver.findElement(By.xpath("//button[text()='Remain in current cabin']"));
-		btnRemainCurrentCabin.click();
-
-		WebElement btnContinue = driver.findElement(By.xpath("//span[text()='Continue']"));
-		btnContinue.click();
+		Click(btnNoToAll(driver));
+		Click(btnContinueCheckin2(driver));
+		VShortWait();
+		Click(btnIAgree(driver));
+		Click(btnRemainCurrentCabin(driver));
+		Click(btnContinue(driver));
 		ShortWait();
-		WebElement btnContinue2 = driver.findElement(By.xpath("//span[text()='Continue']"));
-		btnContinue2.click();
-		ShortWait();
-		WebElement btnContinue3 = driver.findElement(By.xpath("//span[text()='Continue']"));
-		btnContinue3.click();
-		WebElement chkEmail = driver.findElement(By.xpath("//*[@id=\"mat-checkbox-3\"]"));
-		chkEmail.click();
-		WebElement chkMobile = driver.findElement(By.xpath("//*[@id=\"mat-checkbox-4\"]"));
-		chkMobile.click();
-		WebElement inpEmail = driver.findElement(By.xpath("//*[@id=\"mat-input-0\"]"));
-		WebElement inpMobile = driver.findElement(By.xpath("//*[@id=\"mat-input-1\"]"));
-		WebElement inpCountryCode = driver.findElement(By.xpath("//*[@id=\"mat-input-2\"]"));
-		WebElement btnCopy = driver.findElement(By.xpath("//button[contains(text(),'Copy to all passengers')]"));
-		inpEmail.clear();
-		inpEmail.sendKeys("abc@gmail.com");
-		inpCountryCode.clear();
-		inpCountryCode.sendKeys("India (+91)");
-		inpMobile.clear();
-		inpMobile.sendKeys("1234567790");
-		btnCopy.click();
-		WebElement btnContinue4 = driver.findElement(By.xpath("//span[text()='Continue']"));
-		btnContinue4.click();
+		Click(btnContinue2(driver));
+		Click(btnContinue3(driver));
+		Click(chkEmail(driver));
+		Click(chkMobile(driver));
+		Type(inpEmail(driver),EMAIL);
+		Type(inpCountryCode(driver), "India (+91)");
+		Type(inpMobile(driver), "1234567890");
+		Click(btnCopy(driver));
+		Click(btnContinue4(driver));
 
 	}
 }
