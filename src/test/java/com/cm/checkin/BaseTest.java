@@ -128,7 +128,8 @@ public class BaseTest {
 	}
 
 	public static WebElement btnCheckinNow(WebDriver driver) {
-		WebElement btnCheckinNow = driver.findElement(By.xpath("//span[text()='Check in now']"));
+		WebElement btnCheckinNow = (new WebDriverWait(driver, 30)).until(
+				ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Check in now']")));
 		return btnCheckinNow;
 
 	}

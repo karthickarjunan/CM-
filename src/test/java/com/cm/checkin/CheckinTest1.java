@@ -52,7 +52,12 @@ public class CheckinTest1 extends BaseTest {
 		Click(btnContinueCheckin2(driver));
 		VShortWait();
 		Click(btnIAgree(driver));
-		// Click(btnRemainCurrentCabin(driver));
+		
+		try
+		{
+		Click(btnRemainCurrentCabin(driver));
+		}
+		catch(Exception e) {}
 		Click(btnContinue(driver));
 		VShortWait();
 		// Click(btnContinue2(driver));
